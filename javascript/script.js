@@ -46,14 +46,74 @@ const observer = new MutationObserver(callback);
 
 // Start observing the target node for configured mutations
 observer.observe(targetNode, config);
-
 const getData = async () => {
 	let res = await fetch("https://apply.workable.com/api/v1/widget/accounts/flexnow?details=true");
 	let data = await res.json();
 	let jobsData = data.jobs;
 
-  console.log(jobsData);
+	
+	data_sheet(jobsData);
 
 }
-
 getData();
+
+class role {
+	constructor(data) {
+		this.href = data.application_url;
+		this.tittle = data.title;
+		this.location = data.city;
+	}
+}
+
+
+
+
+function data_sheet(data){
+
+	console.log(data);
+	let used_departments = [];
+
+	let auxilary = {};
+	//auxilay = {
+	// department : role;
+	//}
+	data.forEach(x => {
+		department = x.department;
+
+		
+		if(!used_departments.includes(department)){
+
+			used_departments.push(department);
+			
+			auxilary[department] = [];
+			let r  = new role(x);
+			auxilary[department].push(r);
+
+		}else{
+			let r  = new role(x);
+			auxilary[department].push(r);
+		}
+		
+	})
+
+
+	jobPost(auxilary);
+}
+
+function jobPost(data){
+	
+	let jobData = [];
+
+	keys = Object.keys(data);
+
+	keys.forEach(x=> {
+
+		let primary = {};
+
+		primary.category = x;
+		primary.role = data[x];
+		jobData.push(primary)
+
+	})
+	console.log(jobData);
+}
