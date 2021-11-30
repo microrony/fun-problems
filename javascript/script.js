@@ -24,6 +24,10 @@ if(jobPostsGroup) {
 			const jobPostsArray = [...jobPosts];
 			const roles = [];
 			jobPostsArray.forEach(post => {
+				const locationSpan = post?.querySelector('.whr-info .whr-location span');
+						if(locationSpan) {
+							locationSpan.remove();
+						}
 				const title = post.querySelector('.whr-title a').innerHTML;
 				const location = post.querySelector('.whr-info .whr-location').innerHTML;
 				const href = post.querySelector('.whr-title a').getAttribute('href');
